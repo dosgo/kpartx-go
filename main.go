@@ -23,10 +23,19 @@ var DM_TARGET=	"linear"
 var LO_NAME_SIZE =   64
 var PARTNAME_SIZE=	128
 var DELIM_SIZE=	8
+
+
+
+const (
+	LIST      uint32 = 0
+	ADD      uint32 = 1
+	DELETE      uint32 = 2
+	UPDATE      uint32 = 3
+)
 /*
 struct slice slices[MAXSLICES];
 
-enum action { LIST, ADD, DELETE, UPDATE };
+//enum action { LIST, ADD, DELETE, UPDATE };
 
 struct pt {
 char *type;
@@ -177,7 +186,8 @@ func main(){
 	var  fd int= -1;
 	//struct slice all;
 	//struct pt *ptp;
-	//enum action what = LIST;
+	var  action=0;
+	var what = LIST;
 	var _type  string;
 	var diskdevice string
 	var  device string
@@ -407,14 +417,7 @@ func main(){
 					slices[j].minor = m++;
 
 					start = slices[j].start - slices[k].start;
-					printf("%s%s%d : 0 %"
-					PRIu64
-					" /dev/dm-%d %"
-					PRIu64
-					"\n",
-						mapname, delim, j + 1,
-						slices[j].size,
-						slices[k].minor, start);
+					printf("%s%s%d : 0 %"PRIu64" /dev/dm-%d %"PRIu64"\n", mapname, delim, j + 1, slices[j].size, slices[k].minor, start);
 					c--;
 				}
 					/* Terminate loop if nothing more to resolve */
